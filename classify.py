@@ -31,16 +31,30 @@ MAGIC_NUMBERS = {
     b'\x89\x50\x4E\x47': 'PNG image file',
 }
 
-# 상대 경로 사용
-DIR_PATH = './'  # 현재 작업 디렉토리 기준으로 사용
+DIR_PATH = './' 
+
+# 파일이 UTF-8로 읽을 수 있는지 확인하는 함수
+def is_utf8(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            file.read()  # 파일의 모든 내용을 읽기
+        return True  # UTF-8로 읽기 성공하면 True 반환
+    except UnicodeDecodeError:
+        return False  # UTF-8로 읽을 수 없으면 False 반환
 
 # 파일의 매직 넘버를 검사하는 함수
 def check_file_magic_number(file_path):
     file_name = os.path.basename(file_path)
+
+		# 확장자가 txt일 경우
+    if file_name.lower().endswith('.txt'):
+        if is_utf8(file_path):  # UTF-8로 읽을 수 있는지 2중 확인
+            return f"{file_name} is a TXT file (UTF-8)"
+
+    # 매직 넘버 검사
     with open(file_path, 'rb') as file:
         file_header = file.read(4)  # 첫 4바이트를 읽어서 매직 넘버 검사
 
-    # 매직 넘버 검사
     for magic, file_type in MAGIC_NUMBERS.items():
         if file_header.startswith(magic):
             return f"{file_name} is a {file_type}"
@@ -51,7 +65,6 @@ def check_file_magic_number(file_path):
 def check_directory_files(directory_path):
     results = []
 
-    # 디렉토리 내 모든 파일 검사 (for문 사용)
     for file in os.listdir(directory_path):
         file_path = os.path.join(directory_path, file)
         
@@ -67,3 +80,4 @@ def check_directory_files(directory_path):
 results = check_directory_files(DIR_PATH)
 for result in results:
     print(result)
+
