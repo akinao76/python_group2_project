@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>FTP 파일 목록</title>
+</head>
+<body>
+    <h2>{{ ftp_host }} 서버의 파일 목록</h2>
+    <ul>
+        {% for file in files %}
+            <li>{{ file }}</li>
+        {% endfor %}
+    </ul>
+    
+    <a href="/">다시 로그인</a>
+</body>
+</html>
