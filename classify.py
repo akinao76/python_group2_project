@@ -1,6 +1,7 @@
 import ftplib
 import os
 
+#파일을 폴더별로 분류하는 함수
 def ftpdir(ip_addr, login_id, login_pw, filename): 
     ftp = ftplib.FTP(ip_addr)
     ftp.login(login_id, login_pw)
@@ -8,11 +9,13 @@ def ftpdir(ip_addr, login_id, login_pw, filename):
     #프로젝트 이름 추출 (예: projectX_report.txt → projectX)
     project_name = filename.split('_')[0]
 
+    #만약 폴더가 존재하지 않는다면 폴더 이름 만들기
     if project_name not in ftp.nlst():
         ftp.mkd(project_name)
 
     ftp.cwd(project_name)
 
+    #폴더 저장하기
     with open(filename, 'rb') as f:
         ftp.storbinary(f'STOR {os.path.basename(filename)}', f)
 
