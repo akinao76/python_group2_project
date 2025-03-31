@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파일 업로드</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+        h2 {
+            color: #333;
+        }
+        input[type="file"] {
+            margin: 10px 0;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .flash-message {
+            color: red;
+            font-weight: bold;
+        }
+        .masked-files {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .logout {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>파일 업로드</h2>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-message">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('upload_page') }}" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".txt, .docx, .xlsx" required>
+            <br>
+            <button type="submit">업로드</button>
+        </form>
+
+        <h3>마스킹된 파일 목록</h3>
+        <ul class="masked-files">
+            {% for file in masked_files %}
+                <li>
+                    <a href="{{ url_for('download_file', filename=file) }}">{{ file }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <a href="{{ url_for('logout') }}" class="logout">
+            <button>로그아웃</button>
+        </a>
+    </div>
+
+</body>
+</html>
