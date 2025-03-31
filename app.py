@@ -19,6 +19,5 @@ def upload():
     else:
         return render_template('index.html', error='No file selected')
 
-
 if __name__ == '__main__':
     app.run(debug=True)
