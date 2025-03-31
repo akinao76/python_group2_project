@@ -23,8 +23,6 @@ def ftpdir(ip_addr, login_id, login_pw, filename):
 
     ftp.quit()
 
-import os
-
 # 매직 넘버와 파일 형식을 매칭 
 MAGIC_NUMBERS = {
     b'\x25\x50\x44\x46': 'PDF file',  # %PDF
@@ -46,6 +44,7 @@ def check_magic_number(file_path):
             return file_type  # 파일 타입 반환
     return None  # 매직 넘버가 없으면 None 반환
 
+# 텍스트 파일인지 검사
 def is_text_file(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
