@@ -1,5 +1,4 @@
 import os, re
-from datetime import datetime
 
 def mask_content(content):
     jumin_mask = r'([0-9]{6})\s*[-–—]?\s*([1-4])([0-9]{6})'
@@ -18,25 +17,22 @@ def mask_content(content):
     if re.search(email_mask, content):
         content = re.sub(email_mask, r'\1****@\3', content)
         no_find = 1
+    return content, no_find
+
+if __name__ == "__main__":
+    # 파일 경로 및 읽기
+    DIR_PATH = ''
+    file_name = '주민정보.txt'
+    file_path = os.path.join(DIR_PATH, file_name)
+    with open(file_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+
+    # 파일 내용 마스킹 처리
+    content, no_find = mask_content(content)
     if no_find == 0:
         print('중요정보 포함되어 있지 않음')
-    return content
-
-
-# 파일 경로 및 읽기
-DIR_PATH = ''
-file_name = 'test.txt'
-file_path = os.path.join(DIR_PATH, file_name)
-with open(file_path, 'r', encoding='utf-8') as file:
-    content = file.read()
-
-# 파일 내용 마스킹 처리
-content = mask_content(content)
-
-now = datetime.now()
-day = now.strftime("%Y-%m-%d")
-
-#파일 날짜별 저장
-new_file = f'{day}_{file_name}(수정)'
-with open(new_file, 'w', encoding='utf-8') as file:
-    file.write(content)
+    else:
+        #파일 날짜별 저장
+        new_file = f'masking_{file_name}'
+        with open(new_file, 'w', encoding='utf-8') as file:
+            file.write(content)
