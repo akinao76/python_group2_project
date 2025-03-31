@@ -1,11 +1,6 @@
 import os, re
-from datetime import datetime
-
 
 def txt_masking(file_path):
-    now = datetime.now()
-    day = now.strftime("%Y-%m-%d")
-
     #개인정보 패턴
     email_pattern = re.compile(r'[\w\.-]+@[\w\.-]+')
     jumin_pattern = re.compile(r'\d{6}\s*[-]\s*\d{7}')
@@ -37,7 +32,7 @@ def txt_masking(file_path):
 
     if not_find != 0:
         #마스킹된 파일 생성
-        new_file = f'{day}_{file_path}(수정)'
+        new_file = f'masking_{file_path}'
         with open(new_file, 'w', encoding='utf-8') as file:
             for line in lines:
                 file.write(line)
@@ -49,14 +44,11 @@ def txt_masking(file_path):
 
 
 
-    
-
-
 
 #메인 실행
 if __name__ == "__main__":
     #파일 경로
     DIR_PATH = ''
-    file_name = 'test.txt'
+    file_name = '주민정보.txt'
     file_path = os.path.join(DIR_PATH, file_name)
     new_file = txt_masking(file_path)
