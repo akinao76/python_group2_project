@@ -21,7 +21,7 @@ def login():
         ftp = ftplib.FTP(ip)
         ftp.login(user=usern, passwd=password)
 
-    
+
         ftp.quit()  # 연결 종료
 
         return render_template('index.html')  # 다음 페이지로 이동
