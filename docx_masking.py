@@ -6,7 +6,7 @@ def mask_content(content):
     masked = False  # 마스킹 여부 추적
 
     # 주민등록번호 마스킹 (숫자가 붙어있을 때도 처리)
-    jumin_pattern = r'(\d{6})[-–—]?(\d{1})?(\d{6})'
+    jumin_pattern = r'([0-9]{6})\s*[-–—]?\s*([1-4])([0-9]{6})'
     if re.search(jumin_pattern, content):
         content = re.sub(jumin_pattern, r'\1-\2******', content)
         masked = True
