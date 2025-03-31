@@ -60,7 +60,7 @@ def process_document(input_file):
 
 # 출력을 위한 실행 구문
 if __name__ == "__main__":
-    input_file = 'report_table_example.docx'  # 처리할 DOCX 파일의 경로
+    input_file = '2025년_신입사원(최신화).docx'  # 처리할 DOCX 파일의 경로
     masked_file_path, masked_flag = process_document(input_file)
     
     if masked_flag:
